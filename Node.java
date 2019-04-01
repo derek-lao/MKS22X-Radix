@@ -1,34 +1,34 @@
-public class Node{
+public class Node<E>{
 
-  private Node next,prev;
-  private Integer data;
+  private Node<E> next,prev;
+  private E data;
 
-  public Node(Integer element){
+  public Node(E element){
     data=element;
     next=null;
     prev=null;
   }
 
-  public Node next(){
+  public Node<E> next(){
     return this.next;
   }
-  public Node prev(){
+  public Node<E> prev(){
     return this.prev;
   }
-  public void setNext(Node other){
+  public void setNext(Node<E> other){
     this.next=other;
   }
-  public void setPrev(Node other){
+  public void setPrev(Node<E> other){
     this.prev=other;
   }
   public String toString(){
     return ""+this.get();
   }
 
-  public Integer get(){
+  public E get(){
     return this.data;
   }
-  public void set(Integer value){
+  public void set(E value){
     this.data=value;
   }
 

@@ -1,11 +1,11 @@
-public class MyLinkedList{
+public class MyLinkedList<E>{
   // we want the user to see the DATA in the node, but NOT THE NODE ITSELF
-  private Node start,end;
+  private Node<E> start,end;
   private int length;
 
 
   public MyLinkedList(){
-    length=0;
+    length = 0;
     // initiate();
   }
 
@@ -14,34 +14,34 @@ public class MyLinkedList{
   * I will attempt to change the end node to a different node,
   * with data as the element
   */
-  public boolean add(Integer value){
-    if(length==0)
+  public boolean add(E value){
+    if(length == 0)
     {
-      start=new Node(value);
-      end=start;
+      start = new Node<E>(value);
+      end = start;
       start.setNext(end);
       start.setPrev(null);
       end.setPrev(start);
       end.setNext(null);
-      length++;
+      length ++;
       return true;
     }
     // Node newNode = new Node(value);
     // newNode.setPrev(end);
     // end.setNext(newNode);
     // end = newNode;
-    Node holder=end;
+    Node<E> holder = end;
     // System.out.println("The holder has "+holder.get());
-    Node endPrev=end.prev();
+    Node<E> endPrev = end.prev();
     holder.setPrev(endPrev);
     endPrev.setNext(holder);
-    end=new Node(value);
+    end = new Node<E>(value);
     // System.out.println("The new end has "+end.get());
     end.setPrev(holder);
     holder.setNext(end);
     end.setNext(null);
     start.setPrev(null);
-    length++;
+    length ++;
     // System.out.println("Element to be added: "+value);
     // System.out.println("List now: "+this.toString());
     return true;
@@ -59,18 +59,18 @@ public class MyLinkedList{
   *@return a string in the form of [element,element,element]
   */
   public String toString(){
-    if(length==0)
+    if(length == 0)
     return "[]";
     String answer="["+start.get();
-    Node current=start;
-    int i=1;
-    while(current.hasNext()&&i<length)
+    Node<E> current = start;
+    int i = 1;
+    while(current.hasNext() && i < length)
     {
-      current=current.next();
-      answer+=(","+current.get());
-      i++;
+      current = current.next();
+      answer += (","+current.get());
+      i ++;
     }
-    return answer+"]";
+    return answer + "]";
   }
 
   /**
@@ -78,8 +78,8 @@ public class MyLinkedList{
   *@param index is the specified position
   *@return the element at that specified position
   */
-  public Integer get(int index){
-    if(index<0||index>=length)
+  public E get(int index){
+    if(index < 0 || index >= length)
     throw new IndexOutOfBoundsException();
     return this.getNode(index).get();
   }
@@ -91,10 +91,10 @@ public class MyLinkedList{
   *@param value is the element that is to replace the original value
   *@return the element previously at the specified positions
   */
-  public Integer set(int index,Integer value){
-    if(index<0||index>=length)
+  public E set(int index,E value){
+    if(index < 0 || index >= length)
     throw new IndexOutOfBoundsException();
-    Integer originalValue=this.getNode(index).get();
+    E originalValue = this.getNode(index).get();
     this.getNode(index).set(value);
     return originalValue;
   }
@@ -104,9 +104,9 @@ public class MyLinkedList{
   @param value is the value that the user is going to check the whole list for
   @return true if the value is found, and false if the value has not been found
   */
-  public boolean contains(Integer value){
+  public boolean contains(E value){
     //we might use indexOf
-    return indexOf(value)!=-1;
+    return indexOf(value) != -1;
   }
 
   /**
@@ -116,17 +116,17 @@ public class MyLinkedList{
   *@return the index of the first occurence, or -1 if the element
   is not contained
   */
-  public int indexOf(Integer value){
-    Node current=start;
-    int i=0;
+  public int indexOf(E value){
+    Node<E> current = start;
+    int i = 0;
     while(current.hasNext())
     {
-      if(current.get()==value)
+      if(current.get() == value)
       {
         return i;
       }
-      current=current.next();
-      i++;
+      current = current.next();
+      i ++;
     }
     return -1;
   }
@@ -138,22 +138,22 @@ public class MyLinkedList{
   *@param index is the specified position
   *@param value is the element to be inserted
   */
-  public void add(int index,Integer value){
-    if(index<0||index>length)
+  public void add(int index,E value){
+    if(index < 0 || index > length)
     throw new IndexOutOfBoundsException();
     // System.out.println("List before: "+this.toString());
-    if(index==length)
+    if(index == length)
     this.add(value);
     else
     {
-      Node current=this.getNode(index);
+      Node<E> current = this.getNode(index);
       // System.out.println("My data in my current node I am looking at is: "+current.get());
       // System.out.println("Does my current hasPrev? Expecting false: "+current.hasPrev());
       // System.out.println("Does my start hasPrev? Expecting false: "+start.hasPrev());
-      Node answer=new Node(value);
+      Node<E> answer = new Node<E>(value);
       if(current.hasPrev())
       {
-        Node currentPrev=current.prev();
+        Node<E> currentPrev = current.prev();
         currentPrev.setNext(answer);
         answer.setPrev(currentPrev);
         current.setPrev(answer);
@@ -161,13 +161,13 @@ public class MyLinkedList{
       }
       else
       {
-        start=new Node(value);
+        start = new Node<E>(value);
         // System.out.println("The data in this new start node is: "+start.get());
         current.setPrev(start);
         start.setNext(current);
         start.setPrev(null);
       }
-      length++;
+      length ++;
     }
     // System.out.println("List after: "+this.toString());
   }
@@ -178,23 +178,23 @@ public class MyLinkedList{
   *@param index is the specified index
   *@return the removed element
   */
-  public Integer remove(int index){
-    if(index<0||index>=length)
+  public E remove(int index){
+    if(index < 0 || index >= length)
     throw new IndexOutOfBoundsException();
     else{
-      Node current=this.getNode(index);
-      Integer answer=current.get();
-      if(index==length-1)
+      Node<E> current = this.getNode(index);
+      E answer = current.get();
+      if(index == length-1)
       {
-        Node currentPrev=current.prev();
+        Node<E> currentPrev = current.prev();
         end.set(currentPrev.get());
         end.setPrev(currentPrev.prev());
         end.setNext(null);
         return answer;
       }
-      if(index==0)
+      if(index == 0)
       {
-        Node currentNext=current.next();
+        Node<E> currentNext = current.next();
         start.set(currentNext.get());
         start.setNext(currentNext.next());
         start.setPrev(null);
@@ -202,8 +202,8 @@ public class MyLinkedList{
       }
       else
       {
-        Node currentNext=current.next();
-        Node currentPrev=current.prev();
+        Node<E> currentNext = current.next();
+        Node<E> currentPrev = current.prev();
         currentPrev.setNext(currentNext);
         currentNext.setPrev(currentPrev);
         return answer;
@@ -218,7 +218,7 @@ public class MyLinkedList{
   *@param value is the element to be removed
   *@return true if the list includes the element, and false if not
   */
-  public boolean remove(Integer value){
+  public boolean remove(E value){
     if(this.contains(value))
     {
       this.remove(this.indexOf(value));
@@ -230,14 +230,14 @@ public class MyLinkedList{
     }
   } //indexOf() would also be useful
 
-  public void extend(MyLinkedList other){
+  public void extend(MyLinkedList<E> other){
           //in O(1) runtime, move the elements from other onto the end of this
           //The size of other is reduced to 0
           //The size of this is now the combined sizes of both original lists
     this.end.setNext(other.start);
     other.start.setPrev(this.end);
-    this.length=this.length+other.size();
-    other.length=0;
+    this.length = this.length + other.size();
+    other.length = 0;
     other.start.setPrev(null);
     other.end.setNext(null);
   }
@@ -251,13 +251,13 @@ public class MyLinkedList{
   // helper function to loop through the linked list to get a node
   // at a specific index.  That node would be used for whatever it needs
   // to be used for in other methods, such as get(index) and set(value,index)
-  private Node getNode(int index){
-    Node current=start;
-    int i=0;
-    while(i<index && current.hasNext())
+  private Node<E> getNode(int index){
+    Node<E> current = start;
+    int i = 0;
+    while(i < index && current.hasNext())
     {
-      current=current.next();
-      i++;
+      current = current.next();
+      i ++;
     }
     return current;
   }
