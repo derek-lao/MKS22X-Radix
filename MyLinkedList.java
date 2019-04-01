@@ -23,24 +23,14 @@ public class MyLinkedList<E>{
       start.setPrev(null);
       end.setPrev(start);
       end.setNext(null);
+      initiate();
       length ++;
       return true;
     }
-    // Node newNode = new Node(value);
-    // newNode.setPrev(end);
-    // end.setNext(newNode);
-    // end = newNode;
-    Node<E> holder = end;
-    // System.out.println("The holder has "+holder.get());
-    Node<E> endPrev = end.prev();
-    holder.setPrev(endPrev);
-    endPrev.setNext(holder);
-    end = new Node<E>(value);
-    // System.out.println("The new end has "+end.get());
-    end.setPrev(holder);
-    holder.setNext(end);
-    end.setNext(null);
-    start.setPrev(null);
+    Node<E> newEnd = new Node<E>(value);
+    newEnd.setPrev(end);
+    end.setNext(newEnd);
+    end = newEnd;
     length ++;
     // System.out.println("Element to be added: "+value);
     // System.out.println("List now: "+this.toString());
@@ -142,15 +132,20 @@ public class MyLinkedList<E>{
     if(index < 0 || index > length)
     throw new IndexOutOfBoundsException();
     // System.out.println("List before: "+this.toString());
-    if(index == length)
+    else if(index == length)
     this.add(value);
     else
     {
       Node<E> current = this.getNode(index);
-      // System.out.println("My data in my current node I am looking at is: "+current.get());
+      // System.out.println("My data in my current node I am looking at is: " + current.get());
+      // System.out.println("My data in my start node, which should also be my current node, is: " + start.get());
       // System.out.println("Does my current hasPrev? Expecting false: "+current.hasPrev());
       // System.out.println("Does my start hasPrev? Expecting false: "+start.hasPrev());
       Node<E> answer = new Node<E>(value);
+      // System.out.println("Does my start hasPrev()? : " + start.hasPrev());
+      // System.out.println("What is my start.prev().get()? : " + start.prev().get());
+      // System.out.println("What is my start.get()? " + start.get());
+      // System.out.println("Does my current hasPrev()? : " + current.hasPrev());
       if(current.hasPrev())
       {
         Node<E> currentPrev = current.prev();
@@ -161,11 +156,12 @@ public class MyLinkedList<E>{
       }
       else
       {
-        start = new Node<E>(value);
+        answer = new Node<E>(value);
         // System.out.println("The data in this new start node is: "+start.get());
-        current.setPrev(start);
-        start.setNext(current);
-        start.setPrev(null);
+        current.setPrev(answer);
+        answer.setNext(current);
+        answer.setPrev(null);
+        start = answer;
       }
       length ++;
     }
@@ -230,6 +226,13 @@ public class MyLinkedList<E>{
     }
   } //indexOf() would also be useful
 
+  public E removeFirst(){
+    E value = start.get();
+    start = start.next();
+    start.setPrev(null);
+    return value;
+  }
+
   public void extend(MyLinkedList<E> other){
           //in O(1) runtime, move the elements from other onto the end of this
           //The size of other is reduced to 0
@@ -260,6 +263,20 @@ public class MyLinkedList<E>{
       i ++;
     }
     return current;
+  }
+
+  public static void main(String[] args){//for testing
+    MyLinkedList<Integer> thing = new MyLinkedList<Integer>();
+    for(Integer i = 0; i < 10; i ++)
+    {
+      thing.add(i);
+    }
+    Node<Integer> startNext = thing.start.next();
+    System.out.println("thing.start.get() should be 0: " + thing.start.get());
+    System.out.println("thing.start.next().prev().get() should be 0: " + thing.start.next().prev().get());
+    System.out.println("thing.start.next().next().get() should be 2: " + thing.start.next().next().get());
+    System.out.println("startNext.prev().get() should be 0; " + startNext.prev().get());
+    System.out.println("startNext.next().get() should be 2; " + startNext.next().get());
   }
 
 }
