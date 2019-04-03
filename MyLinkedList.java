@@ -180,21 +180,18 @@ public class MyLinkedList<E>{
     else{
       Node<E> current = this.getNode(index);
       E answer = current.get();
-      if(index == length-1)
+      if(index == length - 1)
       {
         Node<E> currentPrev = current.prev();
         end.set(currentPrev.get());
         end.setPrev(currentPrev.prev());
         end.setNext(null);
+        length --;
         return answer;
       }
       if(index == 0)
       {
-        Node<E> currentNext = current.next();
-        start.set(currentNext.get());
-        start.setNext(currentNext.next());
-        start.setPrev(null);
-        return answer;
+        return removeFirst();
       }
       else
       {
@@ -227,10 +224,33 @@ public class MyLinkedList<E>{
   } //indexOf() would also be useful
 
   public E removeFirst(){
-    E value = start.get();
-    start = start.next();
-    start.setPrev(null);
-    return value;
+    if(length > 0)
+    {
+      E value = start.get();
+      start = start.next();
+      start.setPrev(null);
+      length --;
+      return value;
+    }
+    else
+    {
+      throw new IndexOutOfBoundsException();
+    }
+  }
+
+  public E removeLast(){
+    if(length > 0)
+    {
+      E value = end.get();
+      end = end.prev();
+      end.setNext(null);
+      length --;
+      return value;
+    }
+    else
+    {
+      throw new IndexOutOfBoundsException();
+    }
   }
 
   public void extend(MyLinkedList<E> other){
