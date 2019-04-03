@@ -9,22 +9,22 @@ public class Radix{
       if(Math.abs(largest) > Math.abs(data[i]))
       largest = data[i];
     }
-    while((largest / 10) != 0)
+    while((largest / 10) != 0) // if onedigit number, then stays 0.
     {
       magnitudeCounter ++;
       largest /= 10;
     }
     @SuppressWarnings("unchecked")
     MyLinkedList<Integer> everything = new MyLinkedList<Integer>();
-    int magnitude10 = 1;
-    for(magnitude10 = 1; magnitude10 <= magnitudeCounter; magnitude10 ++)
+    int magnitude10 = 0;
+    for(; magnitude10 <= magnitudeCounter; magnitude10 ++)
     {
       MyLinkedList<Integer>[] posNegBuckets = new MyLinkedList[19];
       for(int i = 0; i < everything.size(); i ++)
       {
         Integer currentNumber = everything.get(0);
         int digit;
-        if(magnitude10 < 2)
+        if(magnitude10 < 2 && magnitude10 >= 1)
         {
           digit = currentNumber % 10;
         }
