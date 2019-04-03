@@ -3,7 +3,6 @@ public class MyLinkedList<E>{
   private Node<E> start,end;
   private int length;
 
-
   public MyLinkedList(){
     length = 0;
     // initiate();
