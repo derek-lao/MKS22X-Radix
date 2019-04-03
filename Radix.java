@@ -9,15 +9,20 @@ public class Radix{
     int magnitude10 = 1;
     for(int i = 0; i < everything.size(); i ++, magnitude10 ++)
     {
+      int digit;
       if(magnitude10 < 1)
       {
-        int digit = everything.get(0) % 10;
+        digit = everything.get(0) % 10;
       }
       else
       {
-        int digit = data[i] % ((int)Math.pow(10,magnitude10)) - data[i] % ((int)Math.pow(10,magnitude10 - 1));
+        digit = data[i] % ((int)Math.pow(10,magnitude10)) - data[i] % ((int)Math.pow(10,magnitude10 - 1));
       }
       posNegBuckets[digit + 9].add(data[i]);//take the mod 10, then add to bucket index plus the modulo;
+    }
+    for(int i = 0; i < posNegBuckets.length; i ++)
+    {
+      
     }
   }
 
