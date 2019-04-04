@@ -223,11 +223,19 @@ public class MyLinkedList<E>{
   } //indexOf() would also be useful
 
   public E removeFirst(){
-    if(length > 0)
+    if(length > 1)
     {
       E value = start.get();
       start = start.next();
       start.setPrev(null);
+      length --;
+      return value;
+    }
+    else if(length == 1)
+    {
+      E value = start.get();
+      start = null;
+      end = null;
       length --;
       return value;
     }
@@ -238,11 +246,19 @@ public class MyLinkedList<E>{
   }
 
   public E removeLast(){
-    if(length > 0)
+    if(length > 1)
     {
       E value = end.get();
       end = end.prev();
       end.setNext(null);
+      length --;
+      return value;
+    }
+    else if(length == 1)
+    {
+      E value = start.get();
+      start = null;
+      end = null;
       length --;
       return value;
     }
@@ -253,11 +269,20 @@ public class MyLinkedList<E>{
   }
 
   public void extend(MyLinkedList<E> other){
-          //in O(1) runtime, move the elements from other onto the end of this
-          //The size of other is reduced to 0
-          //The size of this is now the combined sizes of both original lists
-    this.end.setNext(other.start);
-    other.start.setPrev(this.end);
+    //in O(1) runtime, move the elements from other onto the end of this
+    //The size of other is reduced to 0
+    //The size of this is now the combined sizes of both original lists
+    if(this.length == 0)
+    {
+      this.start = other.start;
+      this.end = other.end;
+    }
+    else
+    {
+      this.end.setNext(other.start);
+      other.start.setPrev(this.end);
+      this.end = other.end;
+    }
     this.length = this.length + other.size();
     other.length = 0;
     other.start.setPrev(null);
