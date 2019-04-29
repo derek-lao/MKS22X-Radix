@@ -2,8 +2,6 @@ import java.util.Arrays;
 
 public class Radix{
   public static void radixsort(int[] data){
-    int[] absoluteBuckets = new int[10];
-    int[] nonabsoluteBuckets = new int[19];
     int largest = data[0];
     int magnitudeMax = 0;
     MyLinkedList<Integer> everything = new MyLinkedList<Integer>();
@@ -38,7 +36,7 @@ public class Radix{
         posNegBuckets[i] = new MyLinkedList<Integer>();
       }
       int sizeHolder = everything.size();
-      for(int i = 0; i < sizeHolder; i ++)
+      for(int i = 0; i < sizeHolder; i ++) // sizeHolder is 0??
       {
         Integer currentNumber = everything.removeFirst();
         int digit;
